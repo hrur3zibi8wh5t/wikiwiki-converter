@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>wikiwiki converter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/marx/2.0.4/marx.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="./converter.js"></script>
+</head>
+
+<body>
+    <h1>wikiwiki converter</h1>
+    <h2>使い方</h2>
+    <ol>
+        <li>変換したいページの バージョン管理 > 編集履歴(バックアップ) を表示し、最新版のソースを表示する</li>
+        <li>ソースをコピーして、↓↓↓に貼り付けます。</li>
+        <li>「convert」ボタンを押すと、wikiwiki構文が出てきます。</li>
+    </ol>
+    <table>
+        <tr>
+            <td><textarea id="source" name="source" rows="5" cols="33">atwiki側のソースを入力</textarea></td>
+            <td><textarea id="result" name="result" rows="5" cols="33">wikiwiki向けのソースが表示されます</textarea></td>
+        </tr>
+        <tr>
+            <td><button id="convert">convert</button></td>
+            <td><button id="copy">copy</button></td>
+        </tr>
+    </table>
+</body>
+</html>
