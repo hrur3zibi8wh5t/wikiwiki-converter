@@ -24,6 +24,8 @@ function convert2(input) {
     .map((line) => {
       const sharp = line.match(/^#(\w+)(?:\((.*?)\))?(?:\{(.*)\})?/);
       if (sharp) return convetTag(sharp[0], sharp[1], sharp[2], sharp[3]);
+      const dotList = line.match(/^・(.*)?/);
+      if (dotList) return `-${convetInline(dotList[1])}`;
       return convetInline(line);
     })
     .join("\n");
