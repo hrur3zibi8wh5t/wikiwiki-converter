@@ -96,7 +96,7 @@ function convetTag(match, tag, paramStr, content) {
       return `&sizex(${paramStr}){${innerText}};`;
     case "big":
       innerText = convetInline(content);
-      return `&size(4){${innerText}};`;
+      return `&sizex(4){${innerText}};`;
     // 注釈
     case "footnote":
       innerText = convetInline(paramStr);
