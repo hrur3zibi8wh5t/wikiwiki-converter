@@ -105,16 +105,35 @@ function convetTag(match, tag, paramStr, content) {
     case "color":
       innerText = convetInline(content);
       return `&color(${paramStr}){${innerText}};`;
-    // 装飾
+    // フォント
     case "font":
       let fontConverted = convetInline(content);
 
-      var fontColorCode = args.find((arg) =>
-        arg.match(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/g)
-      );
-      if (fontColorCode)
-        fontConverted = `&color(${fontColorCode}){${fontConverted}};`;
+      // 装飾系を除外
+      const fontColorAndSizesArgs = args.filter(function (arg) {
+        return !["b", "i", "l", "u"].includes(arg);
+      });
 
+      // サイズ以外(=色)
+      const fontColorArgs = fontColorAndSizesArgs.filter(function (arg) {
+        const match = arg.match(/^(\d+)(?:px|%|pt|em)?$/g);
+        return !match;
+      });
+      if (fontColorArgs.length)
+        fontConverted = `&color(${fontColorArgs.join(",")}){${fontConverted}};`;
+
+      // サイズ
+      var fontSizeArgs = fontColorAndSizesArgs.filter(function (arg) {
+        const match = arg.match(/^(\d+)(?:px|%|pt|em)?$/g);
+        return match;
+      });
+      if (fontSizeArgs.length)
+        fontConverted = `&size(${fontSizeArgs[0].replace(
+          /px|%|pt|em/g,
+          ""
+        )}){${fontConverted}};`;
+
+      // 装飾
       if (args.includes("b")) fontConverted = `''${fontConverted}''`;
       if (args.includes("i")) fontConverted = `'''${fontConverted}'''`;
       if (args.includes("l")) fontConverted = `%%${fontConverted}%%`;
