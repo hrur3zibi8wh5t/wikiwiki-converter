@@ -103,6 +103,17 @@ function convetTag(match, tag, paramStr, content) {
     case "footnote":
       innerText = convetInline(paramStr);
       return `((${innerText}))`;
+    // 折り畳み(開始)
+    case "region":
+      innerText = convetInline(paramStr);
+      return `#fold(${innerText}){{`;
+    // 折り畳み(開始)
+    case "openclose":
+      innerText = paramStr.replace("show=", "");
+      return `#fold(${innerText}){{`;
+    // 折り畳み(終了)
+    case "endregion":
+      return "}}";
     // 文字色
     case "color":
       innerText = convetInline(content);
