@@ -13,6 +13,8 @@ $(function () {
   });
 });
 
+let opencloseCount = 0;
+
 /**
  *
  * @param {string} input
@@ -22,6 +24,11 @@ function convert2(input) {
   const lines = input.split(/\r\n|\n|\r/);
   return lines
     .map((line) => {
+      const closeCurlyBrackets = line.match(/^\}$/);
+      if (closeCurlyBrackets && opencloseCount > 0) {
+        opencloseCount--;
+        return "}}";
+      }
       const sharp = line.match(/^#(\w+)(?:\((.*?)\))?(?:\{(.*)\})?/);
       if (sharp) return convetTag(sharp[0], sharp[1], sharp[2], sharp[3]);
       const dotList = line.match(/^・(.*)?/);
@@ -109,6 +116,7 @@ function convetTag(match, tag, paramStr, content) {
       return `#fold(${innerText}){{`;
     // 折り畳み(開始)
     case "openclose":
+      opencloseCount++;
       innerText = paramStr.replace("show=", "");
       return `#fold(${innerText}){{`;
     // 折り畳み(終了)
@@ -158,25 +166,4 @@ function convetTag(match, tag, paramStr, content) {
   }
 
   return match;
-}
-
-/**
- *
- * @param {string} input
- * @returns {string}
- */
-function convert(input) {
-  const result = input
-    // 中央寄せ
-    .replace(/#center\(\)/g, "&align(center)")
-    // 右寄せ
-    .replace(/#right\(\)/g, "&align(right)")
-
-    // 折り畳み
-    .replace(/#openclose\(show=(.*?)\)/g, "[+]$1")
-    .replace(/#region\((.*?)\)/g, "[+]$1")
-    .replace(/#region/g, "[+]")
-    .replace(/#endregion/g, "[END]");
-
-  return result;
 }
