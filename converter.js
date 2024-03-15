@@ -73,6 +73,10 @@ function convetTag(match, tag, paramStr, content) {
     case "right":
       innerText = convetInline(content);
       return `RIGHT:${innerText}`;
+    // 引用
+    case "blockquote":
+      innerText = convetInline(content);
+      return `>${innerText}`;
     // 強調
     case "bold":
     case "b":
