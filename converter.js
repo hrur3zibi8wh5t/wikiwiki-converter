@@ -29,7 +29,7 @@ function convert2(input) {
         opencloseCount--;
         return "}}";
       }
-      const sharp = line.match(/^#(\w+)(?:\((.*?)\))?(?:\{(.*)\})?/);
+      const sharp = line.match(/^#(\w+)(?:\((.*?)\))?(?:\{(.*\}?))?/);
       if (sharp) return convetTag(sharp[0], sharp[1], sharp[2], sharp[3]);
       const dotList = line.match(/^・(.*)?/);
       if (dotList) return `-${convetInline(dotList[1])}`;
@@ -67,15 +67,21 @@ function convetTag(match, tag, paramStr, content) {
   switch (tag) {
     // 中央寄せ
     case "center":
-      innerText = convetInline(content);
+      innerText = convetInline(
+        content.endsWith("}") ? content.slice(0, -1) : content
+      );
       return `CENTER:${innerText}`;
     // 右寄せ
     case "right":
-      innerText = convetInline(content);
+      innerText = convetInline(
+        content.endsWith("}") ? content.slice(0, -1) : content
+      );
       return `RIGHT:${innerText}`;
     // 引用
     case "blockquote":
-      innerText = convetInline(content);
+      innerText = convetInline(
+        content.endsWith("}") ? content.slice(0, -1) : content
+      );
       return `>${innerText}`;
     // 強調
     case "bold":
